@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Instrument Finder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+</head>
+
+<body>
+    <div >
+        <form>
+            <div class="container">
+                <label>Enter Instrument</label>
+                <input type="text" id="Inst" autofocus>
+            </div>
+            <button  class="btn waves-effect waves-light" type="submit">Search Instrument</button>
+        </form>
+    </div>
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', submitForm);
+        function submitForm(e) {
+            e.preventDefault();
+            const item = document.querySelector('#Inst').value;
+            console.log(item);
+            ipcRenderer.send('Inst:search', item);
+        }
+    </script>
+</body>
+
+</html>

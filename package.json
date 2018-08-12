@@ -1,0 +1,19 @@
+{
+  "name": "risktile",
+  "version": "1.0.0",
+  "description": "Simple Risk data viewer app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager .  --overwrite --asar=true --platform=win32 --arch=ia32 --icon=assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"RiskTile\"",    
+    "package-linux": "electron-packager . --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds"
+  },
+  "author": "NatwestMarkets",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^2.0.7",
+    "electron-packager": "^12.1.0"
+  }
+}

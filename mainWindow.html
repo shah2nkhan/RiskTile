@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Risk Tile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+
+</head>
+
+<body>
+    <nav class="nav-wrapper">
+    <a class="brand-logo center">
+            Risk Tile
+    </a>    
+    </nav>
+    <ul ></ul>
+    <script>
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+        const ul = document.querySelector('ul');
+
+        ipcRenderer.on('Inst:search', function (e, item) {
+            ul.className='collection';
+
+            const li = document.createElement('li');
+            const itemText = document.createTextNode(item);
+            li.appendChild(itemText);
+            li.className='collection-item';
+            ul.appendChild(li);
+        });
+
+
+
+        ipcRenderer.on('Inst:clear', function () {
+            ul.innerHTML = '';
+            if(ul.children.length==0)
+            {
+                ul.className='';
+            }
+        });
+
+        //Remove 
+        ul.addEventListener('dblclick', removeItem);
+
+        function removeItem(e) {
+            e.target.remove();
+            if(ul.children.length==0)
+            {
+                ul.className='';
+            }
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
