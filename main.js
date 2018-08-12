@@ -7,11 +7,14 @@ const { app, BrowserWindow, Menu, ipcMain } = electron;
 
 process.env.NODE_ENV = 'production';
 let mainWindow, instSearchWindow;
-
+app.title ='Risk Tile';
 app.on('ready', function () {
-    mainWindow = new BrowserWindow({});
+    
+
+    mainWindow = new BrowserWindow({icon:path.join(__dirname, '/assets/icons/win/icon.ico')});
     mainWindow.loadURL(url.format({ pathname: path.join(__dirname, 'mainWindow.html'), protocol: 'file', slashes: true }));
 
+//Quit App when Main window Close
     mainWindow.on('closed', function () {
         app.quit();
     });
@@ -22,10 +25,6 @@ app.on('ready', function () {
 });
 
 
-//Quit App when Main window Close
-
-
-
 function LaunchSearchPopup() {
     instSearchWindow = new BrowserWindow({
         title: 'Bond Risk',
@@ -33,8 +32,6 @@ function LaunchSearchPopup() {
         width: 300,
         frame: false
     });
-
-
 
     instSearchWindow.loadURL(url.format({ pathname: path.join(__dirname, 'searchInstWindow.html'), protocol: 'file', slashes: true }));
 
@@ -107,3 +104,11 @@ if (process.env.NODE_ENV !== 'production') {
         ]
     });
 }
+
+
+// app.on('window-all-closed',()=>{
+//     if(process.platform!=='darwin')
+//     {
+//         app.quit();
+//     }
+// });
