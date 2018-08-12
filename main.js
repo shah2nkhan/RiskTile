@@ -2,19 +2,21 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
-const { app, BrowserWindow, Menu, ipcMain } = electron;
 
 
-process.env.NODE_ENV = 'production';
+const { app, BrowserWindow, Menu, ipcMain, Tray } = electron;
+
+
+//process.env.NODE_ENV = 'production';
 let mainWindow, instSearchWindow;
-app.title ='Risk Tile';
+app.title = 'Risk Tile';
 app.on('ready', function () {
-    
 
-    mainWindow = new BrowserWindow({icon:path.join(__dirname, '/assets/icons/win/icon.ico')});
+
+    mainWindow = new BrowserWindow({ icon: path.join(__dirname, '/assets/icons/win/icon.ico') });
     mainWindow.loadURL(url.format({ pathname: path.join(__dirname, 'mainWindow.html'), protocol: 'file', slashes: true }));
 
-//Quit App when Main window Close
+    //Quit App when Main window Close
     mainWindow.on('closed', function () {
         app.quit();
     });
@@ -22,15 +24,27 @@ app.on('ready', function () {
     const mainMenu = Menu.buildFromTemplate(mainMenuBarTemplate);
     Menu.setApplicationMenu(mainMenu);
 
+    //Tray for the app
+    let tray = new Tray(path.join(__dirname, '/assets/icons/win/icon.ico'));
+    tray.setToolTip("Risk Tile");
+
+    tray.on('click', () => {
+        mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show();
+    });
+
+    let traymenu = Menu.buildFromTemplate(trayMenuBarTemplate);
+    tray.setContextMenu(traymenu);
 });
 
 
 function LaunchSearchPopup() {
     instSearchWindow = new BrowserWindow({
-        title: 'Bond Risk',
+        
         height: 200,
         width: 300,
-        frame: false
+        frame: false,
+        icon: path.join(__dirname, '/assets/icons/win/icon.ico'),
+        skipTaskbar:true
     });
 
     instSearchWindow.loadURL(url.format({ pathname: path.join(__dirname, 'searchInstWindow.html'), protocol: 'file', slashes: true }));
@@ -41,6 +55,9 @@ function LaunchSearchPopup() {
     instSearchWindow.on('close', function () {
         instSearchWindow = null;
     });
+
+    
+   
 
 }
 
@@ -66,8 +83,7 @@ const mainMenuBarTemplate = [
                 {
                     label: 'Clear',
                     click() {
-                        mainWindow.webContents.send('Inst:clear');
-
+                        mainWindow.webContents.send('Inst:clear');                       
                     }
                 },
                 {
@@ -77,6 +93,22 @@ const mainMenuBarTemplate = [
             ]
     }
 ];
+
+
+const trayMenuBarTemplate = [
+    {
+        
+        type:'normal',        
+        label: 'Search instrument',
+        click() { LaunchSearchPopup(); }
+    },
+    {
+        label: 'Quit', accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+        click() { app.quit(); }
+    }
+
+];
+
 
 const emptyMenuBarTemplate = [];
 

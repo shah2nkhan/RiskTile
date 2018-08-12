@@ -19,6 +19,7 @@
         const electron = require('electron');
         const { ipcRenderer } = electron;
         const ul = document.querySelector('ul');
+        const path = require('path');
 
         ipcRenderer.on('Inst:search', function (e, item) {
             ul.className='collection';
@@ -29,7 +30,7 @@
             li.className='collection-item';
             ul.appendChild(li);
         });
-
+       
 
 
         ipcRenderer.on('Inst:clear', function () {
@@ -38,6 +39,8 @@
             {
                 ul.className='';
             }
+                     
+          
         });
 
         //Remove 
@@ -49,7 +52,11 @@
             {
                 ul.className='';
             }
+
+
         }
+        
+
 
 
 

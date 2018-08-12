@@ -12,3 +12,6 @@ https://ourcodeworld.com/articles/read/524/how-to-use-live-reload-in-your-electr
 
 https://www.christianengvall.se/electron-packager-tutorial/
 
+https://materializecss.com/preloader.html
+
+
