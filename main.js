@@ -1,6 +1,7 @@
 const electron = require('electron');
 const url = require('url');
 const path = require('path');
+const username = require('username');
 
 
 
@@ -20,6 +21,15 @@ app.on('ready', function () {
     mainWindow.on('closed', function () {
         app.quit();
     });
+
+    mainWindow.webContents.on('did-finish-load',WindowsReady);
+
+        function WindowsReady() {
+            (async () => {
+                mainWindow.webContents.send('showSnackbar',await username());
+            })();
+           
+        }
 
     const mainMenu = Menu.buildFromTemplate(mainMenuBarTemplate);
     Menu.setApplicationMenu(mainMenu);

@@ -5,7 +5,7 @@
 
     <title>Risk Tile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
@@ -15,12 +15,13 @@
     </a>    
     </nav>
     <ul ></ul>
+    <div id="snackbar">Some text some message..</div>
     <script>
         const electron = require('electron');
         const { ipcRenderer } = electron;
         const ul = document.querySelector('ul');
         const path = require('path');
-
+        
         ipcRenderer.on('Inst:search', function (e, item) {
             ul.className='collection';
 
@@ -31,7 +32,14 @@
             ul.appendChild(li);
         });
        
-
+        ipcRenderer.on('showSnackbar', function (e,identity) {
+            var x = document.getElementById("snackbar");   
+          x.innerText = `Welcome : ${identity}!`;
+          x.className = "show";
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+                     
+          
+        });
 
         ipcRenderer.on('Inst:clear', function () {
             ul.innerHTML = '';
